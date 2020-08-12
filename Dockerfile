@@ -6,6 +6,9 @@ RUN mkdir /pdf-parsy
 WORKDIR /pdf-parsy
 COPY . /pdf-parsy
 
+RUN apt-get update
+RUN apt-get install -y poppler-utils
+
 RUN gem install bundler
 RUN bundle install --path=vendor/bundle
 
