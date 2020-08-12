@@ -1,4 +1,4 @@
-FROM ruby:2.4.6
+FROM ruby:2.7.1
 
 EXPOSE 3000
 
