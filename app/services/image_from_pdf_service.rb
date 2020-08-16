@@ -6,15 +6,21 @@ class ImagesFromPdfService < ApplicationService
   end
 
   def call
-    FileUtils.mkdir_p BASE_DIR
-    `pdfimages -png #{pdf_path} .`
+    `pdfimages -png #{pdf_path} #{images_hash}-`
 
     images = []
-    Dir[".*.png"].each do |file|
+    Dir["#{images_hash}*"].each do |file|
+      puts file
       images << Base64.encode64(File.read(file))
       File.delete(file)
     end
 
     images
+  end
+
+  private
+
+  def images_hash
+    @images_hash ||= SecureRandom.hex
   end
 end
