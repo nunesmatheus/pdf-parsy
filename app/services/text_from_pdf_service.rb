@@ -3,6 +3,7 @@
 class TextFromPdfService < ApplicationService
   attr_accessor :pdf_path
 
+  RIGHT_COLUMN_SINGLE_REGEX = /\n {30,}\S/.freeze
   COLUMN_REGEX = / {5,}\S/.freeze
 
   def initialize(pdf_path)
@@ -11,41 +12,38 @@ class TextFromPdfService < ApplicationService
   end
 
   def call
+    # return Pdftotext.text(pdf_path)
     pdf_pages.each_with_index.map do |page, page_index|
       columns = { left: [], right: [] }
-      lines = page.split("\n")
       split_positions = split_positions(page, page_index)
-      lines.each_with_index.map do |line, i|
-        split_position = split_positions[:positions][i]
-        if split_position
-          gaps = line.scan(COLUMN_REGEX).map { |match| line.index(match) + match.size - 1 }
-          new_split_position = gaps.min_by { |gap| (split_positions[:median] - gap).abs }
-          columns[:left] << line[0..new_split_position - 1]
-          columns[:right] << line[new_split_position..-1]
-        else
-          columns[:left] << line
-        end
-      end
-
+      columns = columns_from_split(columns, page, split_positions)
       columns[:left].join("\n") + columns[:right].join("\n")
     end.join("\n\n")
   end
 
   private
 
+  def columns_from_split(columns, page, split_positions)
+    lines = page.split("\n")
+    lines.each_with_index.map do |line, i|
+      split_position = split_positions[:positions][i]
+      if split_position
+        gaps = line.scan(COLUMN_REGEX).map { |match| line.index(match) + match.size - 1 }
+        new_split_position = gaps.min_by { |gap| (split_positions[:median] - gap).abs }
+        columns[:left] << line[0..new_split_position - 1]
+        columns[:right] << line[new_split_position..-1]
+      else
+        columns[:left] << line
+      end
+    end
+    columns
+  end
+
   def split_positions(content, page)
     @split_positions[page] ||= begin
       split_positions = []
       lines = content.split("\n")
-      lines.each do |line|
-        split_position = nil
-        match = line.match(COLUMN_REGEX)
-        if match
-          split_position = line.index(match[0]) + match[0].length - 1
-        end
-        split_positions << split_position
-      end
-
+      lines.each { |line| split_positions << split_position(line) }
       present = split_positions.reject(&:nil?)
 
       {
@@ -54,6 +52,27 @@ class TextFromPdfService < ApplicationService
         median: present.sort[present.size / 2]
       }
     end
+  end
+
+  def split_position(line)
+    return if single_column?(line) && left_column?(line)
+
+    match = line.match(COLUMN_REGEX)
+    return if match.blank?
+
+    line.index(match[0]) + match[0].length - 1
+  end
+
+  def single_column?(line)
+    line.match(/\A +[\S ]+/) && !line.match(/\A +[\S ]+ #{COLUMN_REGEX}/)
+  end
+
+  def left_column?(line)
+    !right_column?(line)
+  end
+
+  def right_column?(line)
+    !!line.match(RIGHT_COLUMN_SINGLE_REGEX)
   end
 
   def total_pages
