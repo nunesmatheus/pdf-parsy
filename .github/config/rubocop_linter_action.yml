@@ -1,0 +1,4 @@
+versions:
+  - rubocop: "0.91.0"
+  - rubocop-rails: "2.7.1"
+  - rubocop-rspec: "1.43.2"
