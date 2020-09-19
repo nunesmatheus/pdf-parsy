@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 class TextFromPdfService < ApplicationService
   attr_accessor :pdf_path
 
-  COLUMN_REGEX = / {5,}\S/
+  COLUMN_REGEX = / {5,}\S/.freeze
 
   def initialize(pdf_path)
     @pdf_path = pdf_path
@@ -18,7 +20,7 @@ class TextFromPdfService < ApplicationService
         if split_position
           gaps = line.scan(COLUMN_REGEX).map { |match| line.index(match) + match.size - 1 }
           new_split_position = gaps.min_by { |gap| (split_positions[:median] - gap).abs }
-          columns[:left] << line[0..new_split_position-1]
+          columns[:left] << line[0..new_split_position - 1]
           columns[:right] << line[new_split_position..-1]
         else
           columns[:left] << line
@@ -49,7 +51,7 @@ class TextFromPdfService < ApplicationService
       {
         positions: split_positions,
         average: present.sum / split_positions.size,
-        median: present.sort[present.size/2]
+        median: present.sort[present.size / 2]
       }
     end
   end

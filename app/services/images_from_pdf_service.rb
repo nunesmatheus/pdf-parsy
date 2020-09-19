@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ImagesFromPdfService < ApplicationService
   attr_accessor :pdf_path
 
