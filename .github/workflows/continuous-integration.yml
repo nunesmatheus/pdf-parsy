@@ -1,0 +1,66 @@
+name: Continuous integration
+
+on: push
+
+jobs:
+  # rspec:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@v2
+
+  #   - name: Cache Dependencies
+  #     id: cache-dependencies
+  #     uses: actions/cache@v2
+  #     with:
+  #       path: |
+  #         bundle.tar.gz
+  #         vendor/cache
+  #       key: ${{ runner.os }}-bundle
+
+  #   - name: Unzip bundle
+  #     run: |
+  #       test -f bundle.tar.gz && sudo tar -xzf bundle.tar.gz -C . && rm -f bundle.tar.gz
+  #       echo "Tryed to unzip bundle"
+
+  #   - name: Setup application
+  #     run: docker-compose build --build-arg CI_BUILD=true
+
+  #   - name: Setup test environment
+  #     run: docker-compose run --rm web bash ./ci_scripts/setup_tests_ci.sh
+
+  #   - name: Run tests
+  #     run: docker-compose run --rm web bash ./ci_scripts/run_tests_ci.sh
+
+  #   - uses: jwalton/gh-find-current-pr@v1
+  #     id: PR
+  #     with:
+  #       github-token: ${{ secrets.GITHUB_TOKEN }}
+
+  #   - name: Check coverage
+  #     run: |
+  #       coverage=$(ruby ci_scripts/coverage_checker.rb)
+  #       if [[ $coverage == *"100%"* ]]; then
+  #         echo "100% coverage!"
+  #       else
+  #         echo "Missing coverage: $coverage"
+  #         exit 1
+  #       fi
+
+  #   - name: Zip dependencies
+  #     run: |
+  #       docker-compose run web bundle package
+  #       docker cp "$(docker ps -a | grep driver-api | awk '{print $1}' | sed -n 1,1p)":/bundle .
+  #       find bundle -name "*.c" -delete
+  #       find bundle -name "*.o" -delete
+  #       tar -zcf bundle.tar.gz bundle
+
+
+  rubocop:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: RuboCop Linter
+      uses: andrewmcodes/rubocop-linter-action@v3.3.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
