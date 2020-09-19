@@ -22,3 +22,5 @@
 vendor/bundle/
 
 tags
+
+public/coverage
