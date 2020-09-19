@@ -12,6 +12,9 @@ jobs:
       with:
         ruby-version: 2.7.1
 
+    - name: Run tests
+      run: rspec
+
     - name: Check coverage
       run: |
         coverage=$(ruby ci_scripts/coverage_checker.rb)
