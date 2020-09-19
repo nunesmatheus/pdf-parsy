@@ -12,7 +12,6 @@ class TextFromPdfService < ApplicationService
   end
 
   def call
-    # return Pdftotext.text(pdf_path)
     pdf_pages.each_with_index.map do |page, page_index|
       columns = { left: [], right: [] }
       split_positions = split_positions(page, page_index)
