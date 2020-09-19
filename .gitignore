@@ -20,3 +20,5 @@
 /config/master.key
 
 vendor/bundle/
+
+tags
