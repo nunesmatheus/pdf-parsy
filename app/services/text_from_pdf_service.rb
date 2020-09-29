@@ -12,15 +12,28 @@ class TextFromPdfService < ApplicationService
   end
 
   def call
-    pdf_pages.each_with_index.map do |page, page_index|
+    text = pdf_pages.each_with_index.map do |page, page_index|
       columns = { left: [], right: [] }
       split_positions = split_positions(page, page_index)
       columns = columns_from_split(columns, page, split_positions)
-      columns[:left].join("\n") + columns[:right].join("\n")
-    end.join("\n\n")
+      columns[:left] + columns[:right]
+    end
+    sanitize(text.flatten.join("\n"))
   end
 
   private
+
+  def sanitize(text)
+    text.
+      gsub(/ +$/, '').
+      gsub(/^ +/, '').
+      gsub(/([a-zA-Z])-$\n([a-zA-Z])/, '\1\2').
+      gsub(/([a-zA-Z[:alpha:]]) +\n/, '\1 ').
+      gsub(/([a-zA-Z[:alpha:]])\n([a-zA-Z[:alpha:]])/, '\1 \2').
+      gsub(/([a-zA-Z[:alpha:]])\n+([a-zA-Z[:alpha:]])/, '\1 \2').
+      gsub(/,\n(a-zA-Z)/, ', \1').
+      gsub(/\n{2,}/, "\n\n")
+  end
 
   def columns_from_split(columns, page, split_positions)
     lines = page.split("\n")
