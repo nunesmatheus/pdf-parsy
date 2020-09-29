@@ -39,6 +39,7 @@ SimpleCov.start do
 end
 
 SimpleCov.coverage_dir 'public/coverage'
+SimpleCov.minimum_coverage 100
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
   SimpleCov::Formatter::HTMLFormatter,
   SimpleCov::Formatter::JSONFormatter
