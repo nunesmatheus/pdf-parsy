@@ -24,6 +24,9 @@ gem 'bootsnap', '>= 1.1.0', require: false
 
 gem 'pdftotext', '~> 0.2.1'
 
+# Notify application exception to Bugsnag
+gem 'bugsnag', '~> 6.17.0'
+
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'
 
