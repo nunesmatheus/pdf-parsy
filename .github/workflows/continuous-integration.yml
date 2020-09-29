@@ -21,16 +21,6 @@ jobs:
     - name: Run tests
       run: rspec
 
-    - name: Check coverage
-      run: |
-        coverage=$(ruby ci_scripts/coverage_checker.rb)
-        if [[ $coverage == *"100%"* ]]; then
-          echo "100% coverage!"
-        else
-          echo "Missing coverage: $coverage"
-          exit 1
-        fi
-
 
   rubocop:
     runs-on: ubuntu-latest
