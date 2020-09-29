@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ImagesFromPdfService < ApplicationService
   attr_accessor :pdf_path
 
@@ -10,7 +12,6 @@ class ImagesFromPdfService < ApplicationService
 
     images = []
     Dir["#{images_hash}*"].each do |file|
-      puts file
       images << Base64.encode64(File.read(file))
       File.delete(file)
     end

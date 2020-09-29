@@ -1,0 +1,33 @@
+name: Continuous integration
+
+on: push
+
+jobs:
+  rspec:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.7.1
+
+    - name: Install dependencies
+      run: bundle install
+
+    - name: Install pdftotext
+      run: sudo apt-get install -y poppler-utils
+
+    - name: Run tests
+      run: rspec
+
+
+  rubocop:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: RuboCop Linter
+      uses: andrewmcodes/rubocop-linter-action@v3.3.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
