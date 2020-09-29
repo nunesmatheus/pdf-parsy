@@ -30,6 +30,10 @@ gem 'bugsnag', '~> 6.17.0'
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'
 
+# Generate Swagger API docs from integrations specs
+gem 'rswag-api', '~> 2.3.1'
+gem 'rswag-ui', '~> 2.3.1'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
@@ -38,8 +42,10 @@ group :development, :test do
   gem 'rubocop-rails', '~> 2.7.1', require: false
   gem 'rubocop-rspec', '~> 1.43.2', require: false
 
-  # Generate Swagger API docs from integrations specs
-  gem 'rswag', '~> 2.3.1'
+  # Automated tests
+  gem 'rspec-rails', '~> 3.9.0'
+
+  gem 'rswag-specs', '~> 2.3.1'
 end
 
 group :development do
@@ -50,9 +56,6 @@ group :development do
 end
 
 group :test do
-  # Automated tests
-  gem 'rspec-rails', '~> 3.9.0'
-
   # Automated tests Coverage
   gem 'simplecov', '~> 0.19.0', require: false
   gem 'simplecov-json', '~> 0.2', require: false
