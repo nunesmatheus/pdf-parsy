@@ -11,7 +11,7 @@ class ImagesFromPdfService < ApplicationService
     `pdfimages -png #{pdf_path} #{images_hash}-`
 
     images = []
-    Dir["#{images_hash}*"].each do |file|
+    Dir["#{images_hash}*"].sort.each do |file|
       images << Base64.encode64(File.read(file))
       File.delete(file)
     end
