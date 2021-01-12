@@ -1,0 +1,44 @@
+{
+  "version": "2.0",
+  "routeKey": "GET /pdftotext",
+  "rawPath": "/pdftotext",
+  "rawQueryString": "",
+  "headers": {
+    "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+    "accept-encoding": "gzip, deflate, br",
+    "accept-language": "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7,sr;q=0.6,es;q=0.5",
+    "content-length": "0",
+    "host": "uzb4xsuyrd.execute-api.us-east-1.amazonaws.com",
+    "sec-ch-ua": "\"Google Chrome\";v=\"87\", \" Not;A Brand\";v=\"99\", \"Chromium\";v=\"87\"",
+    "sec-ch-ua-mobile": "?0",
+    "sec-fetch-dest": "document",
+    "sec-fetch-mode": "navigate",
+    "sec-fetch-site": "none",
+    "sec-fetch-user": "?1",
+    "upgrade-insecure-requests": "1",
+    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36",
+    "x-amzn-trace-id": "Root=1-5ffe0195-03ca63b4286557ce35db729f",
+    "x-forwarded-for": "168.181.50.133",
+    "x-forwarded-port": "443",
+    "x-forwarded-proto": "https"
+  },
+  "requestContext": {
+    "accountId": "775344551058",
+    "apiId": "uzb4xsuyrd",
+    "domainName": "uzb4xsuyrd.execute-api.us-east-1.amazonaws.com",
+    "domainPrefix": "uzb4xsuyrd",
+    "http": {
+      "method": "GET",
+      "path": "/pdftotext",
+      "protocol": "HTTP/1.1",
+      "sourceIp": "168.181.50.133",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36"
+    },
+    "requestId": "ZDUvcheTIAMEP-g=",
+    "routeKey": "GET /pdftotext",
+    "stage": "$default",
+    "time": "12/Jan/2021:20:07:49 +0000",
+    "timeEpoch": 1610482069966
+  },
+  "isBase64Encoded": false
+}
