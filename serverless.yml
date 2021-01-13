@@ -66,13 +66,22 @@ custom:
 #    - exclude-me-dir/**
 
 functions:
-  pdftotext:
-    handler: handler.pdftotext
+  pdf_to_text:
+    handler: handler.pdf_to_text
     timeout: 29
     memorySize: 2048
     events:
       - httpApi:
-          path: /pdftotext
+          path: /pdf_to_text
+          method: get
+
+  pdf_images:
+    handler: handler.pdf_images
+    timeout: 29
+    memorySize: 2048
+    events:
+      - httpApi:
+          path: /pdf_images
           method: get
 #      - websocket: $connect
 #      - s3: ${env:BUCKET}
