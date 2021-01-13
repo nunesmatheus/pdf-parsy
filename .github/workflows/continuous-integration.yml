@@ -19,7 +19,7 @@ jobs:
         run: docker-compose build
 
       - name: Install packages
-        run: docker-compose run --rm app pip -r requirements_dev.txt
+        run: docker-compose run --rm app pip install -r requirements_dev.txt
 
       - name: Run tests
         run: docker-compose run --rm app python3 -m unittest test/*
