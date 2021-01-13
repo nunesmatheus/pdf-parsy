@@ -11,6 +11,7 @@ filelock==3.0.12
 isort==5.7.0
 jmespath==0.10.0
 lazy-object-proxy==1.4.3
+linecache2==1.0.0
 mccabe==0.6.1
 pdfminer.six==20201018
 pycodestyle==2.6.0
@@ -22,6 +23,8 @@ s3transfer==0.3.4
 six==1.15.0
 sortedcontainers==2.3.0
 toml==0.10.2
+traceback2==1.4.0
+unittest2==1.1.0
 urllib3==1.26.2
 virtualenv==20.3.0
 wrapt==1.12.1

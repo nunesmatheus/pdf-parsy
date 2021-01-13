@@ -18,7 +18,7 @@ def pdftotext(event, context):
     s3 = boto3.client('s3')
     path = '/tmp/file.pdf'
     s3.download_file('vstiba-provas', key, path)
-    text = __convert_pdf_to_txt(path)
+    text = convert_pdf_to_txt(path)
 
     response = {
         "statusCode": 200,
@@ -31,7 +31,7 @@ def pdftotext(event, context):
     return response
 
 
-def __convert_pdf_to_txt(path):
+def convert_pdf_to_txt(path):
     rsrcmgr = PDFResourceManager()
     retstr = StringIO()
     laparams = LAParams()
