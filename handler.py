@@ -7,7 +7,6 @@ from pdfminer.pdfpage import PDFPage
 from io import StringIO
 import fitz
 import os
-import base64
 
 
 def pdf_to_text(event, context):
