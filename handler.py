@@ -2,6 +2,7 @@ import boto3
 import os
 from pdf_to_text import convert as convert_to_text
 from pdf_images_extractor import extract_and_upload_images
+import json
 
 
 def pdf_to_text(event, context):
@@ -14,9 +15,7 @@ def pdf_to_text(event, context):
 
     response = {
         "statusCode": 200,
-        "body": {
-            "text": text
-        },
+        "body": json.dumps({"text": text}),
         "headers": {
             "Content-Type": "application/json; charset=utf-8"
         }
@@ -35,9 +34,7 @@ def pdf_images(event, context):
 
     response = {
         "statusCode": 200,
-        "body": {
-            "images": images
-        },
+        "body": json.dumps({"images": images}),
         "headers": {
             "Content-Type": "application/json"
         }
