@@ -53,9 +53,11 @@ def pdf_images(event, context):
 
     images = []
     for filename in os.listdir(images_directory):
-        with open("%s/%s" % (images_directory, filename), "rb") as image_file:
+        absolute_path = "%s/%s" % (images_directory, filename)
+        with open(absolute_path, "rb") as image_file:
             encoded = base64.b64encode(image_file.read()).decode('ascii')
             images.append(encoded)
+            os.remove(absolute_path)
 
     response = {
         "statusCode": 200,
