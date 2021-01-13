@@ -25,6 +25,13 @@ provider:
   runtime: python3.8
   lambdaHashingVersion: 20201221
 
+plugins:
+  - serverless-python-requirements
+
+custom:
+  pythonRequirements:
+    dockerizePip: true # TODO: Should probably remove this if the application as whole is dockerized in the future
+
 # you can overwrite defaults here
 #  stage: dev
 #  region: us-east-1
@@ -61,6 +68,8 @@ provider:
 functions:
   pdftotext:
     handler: handler.pdftotext
+    timeout: 29
+    memorySize: 2048
     events:
       - httpApi:
           path: /pdftotext

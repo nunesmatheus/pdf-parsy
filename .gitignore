@@ -26,3 +26,5 @@ tags
 public/coverage
 
 .serverless
+
+node_modules
