@@ -50,6 +50,10 @@ def __remove_images():
 
 
 def __upload_file(key, file_name):
-    s3 = boto3.client('s3')
+    s3 = boto3.client(
+        's3',
+        aws_access_key_id=os.environ.get('S3_ACCESS_KEY_ID'),
+        aws_secret_access_key=os.environ.get('S3_SECRET_ACCESS_KEY')
+    )
     return s3.upload_file(file_name, os.environ.get(
         'S3_BUCKET'), key, ExtraArgs={'ACL': 'public-read'})
