@@ -6,8 +6,8 @@ services:
     tty: true
     stdin_open: true
     volumes:
-      - ".:/app/"
-      - ${PIP_CACHE_DIR:-pip}:/usr/local/lib/python3.9/site-packages/
+      - .:/app/
+      - pip:/usr/local/lib/python3.9/site-packages/
 
 volumes:
   pip:
