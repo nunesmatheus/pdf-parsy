@@ -5,15 +5,20 @@ on: push
 jobs:
   tests:
     runs-on: ubuntu-latest
+    env:
+      PIP_CACHE_DIR: /tmp/cache/pip
+      PIP_CACHE_KEY: cache-pip
     steps:
       - uses: actions/checkout@v2
 
-      #       - uses: actions/cache@v2
-      #         with:
-      #           path: vendor/bundle
-      #           key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
-      #           restore-keys: |
-      #             ${{ runner.os }}-gems-
+      - name: Cache Dependencies
+        id: cache-dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.PIP_CACHE_DIR }}
+          key: ${{ runner.os }}-python-3.9.1-${{ env.PIP_CACHE_KEY }}-${{ hashFiles('requirements_dev.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ env.PIP_CACHE_KEY }}
 
       - name: Build base image
         run: docker-compose build
