@@ -4,8 +4,16 @@ Extract text and images from PDFs through and endpoint that runs as a lambda fun
 
 ## Invoke local
 
+- Set a environment var for S3_BUCKET locally:
+
 ``` bash
-sls invoke local -f pdftotext -p fixtures/pdf_input.json
+export S3_BUCKET=YOUR_BUCKET_NAME
+```
+
+- Run the function:
+
+``` bash
+sls invoke local -f pdf_to_text -p fixtures/pdf_input.json
 ```
 
 ## Deploy
@@ -15,3 +23,5 @@ sls invoke local -f pdftotext -p fixtures/pdf_input.json
 ``` bash
 sls deploy --verbose
 ```
+
+- Set a S3_BUCKET environment var on the AWS page for your newly created lamba function
