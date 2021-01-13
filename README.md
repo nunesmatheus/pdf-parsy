@@ -1,6 +1,6 @@
 # PDF Parsy
 
-Extract text from PDFs through and endpoint that runs as a lambda function built with the [serverless framework](https://www.serverless.com/)
+Extract text and images from PDFs through and endpoint that runs as a lambda function built with the [serverless framework](https://www.serverless.com/)
 
 ## Invoke local
 
