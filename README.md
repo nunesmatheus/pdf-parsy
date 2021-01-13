@@ -5,7 +5,7 @@ Extract text and images from PDFs through and endpoint that runs as a lambda fun
 ## Invoke local
 
 ``` bash
-sls invoke local -f pdftotext -p pdf_input.json
+sls invoke local -f pdftotext -p fixtures/pdf_input.json
 ```
 
 ## Deploy
