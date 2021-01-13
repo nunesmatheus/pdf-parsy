@@ -22,7 +22,10 @@
     "x-forwarded-port": "443",
     "x-forwarded-proto": "https"
   },
-  "queryStringParameters": { "key": "ENEM/ENEM-2019.pdf" },
+  "queryStringParameters": {
+    "key": "ENEM/ENEM-2019.pdf",
+    "folder": "ENEM/2019/images"
+  },
   "requestContext": {
     "accountId": "775344551058",
     "apiId": "uzb4xsuyrd",
