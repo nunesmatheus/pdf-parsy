@@ -35,6 +35,7 @@ def convert_pdf_to_txt(path):
     rsrcmgr = PDFResourceManager()
     retstr = StringIO()
     laparams = LAParams()
+    laparams.line_margin = 20.0
     device = TextConverter(rsrcmgr, retstr, codec='utf-8', laparams=laparams)
     fp = open(path, 'rb')
     interpreter = PDFPageInterpreter(rsrcmgr, device)
