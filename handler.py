@@ -1,9 +1,7 @@
-import json
 import boto3
-import fitz
 import os
-import sys
 from pdf_to_text import convert as convert_to_text
+from pdf_images_extractor import extract_and_upload_images
 
 
 def pdf_to_text(event, context):
@@ -33,30 +31,7 @@ def pdf_images(event, context):
         return missing_key_response()
 
     path = download_file(key)
-    images_directory = '/tmp/images'
-    if not os.path.exists(images_directory):
-        os.mkdir(images_directory)
-
-    # TODO: Should extract to another file
-    doc = fitz.open(path)
-    for i in range(len(doc)):
-        for img in doc.getPageImageList(i):
-            xref = img[0]
-            pix = fitz.Pixmap(doc, xref)
-            if pix.n - pix.alpha < 4:  # this is GRAY or RGB
-                pix.writePNG("%s/p%s-%s.png" % (images_directory, i, xref))
-            else:  # CMYK: convert to RGB first
-                pix1 = fitz.Pixmap(fitz.csRGB, pix)
-                pix1.writePNG("%s/p%s-%s.png" % (images_directory, i, xref))
-                pix1 = None
-            pix = None
-
-    s3_folder = event.get('queryStringParameters', {}).get('folder')
-    images = os.listdir(images_directory)
-    for filename in images:
-        absolute_path = "%s/%s" % (images_directory, filename)
-        upload_file("%s/%s" % (s3_folder, filename), absolute_path)
-        os.remove(absolute_path)
+    images = extract_and_upload_images(path, event)
 
     response = {
         "statusCode": 200,
@@ -87,9 +62,3 @@ def download_file(key):
     path = '/tmp/file.pdf'
     s3.download_file(os.environ.get('S3_BUCKET'), key, path)
     return path
-
-
-def upload_file(key, file_name):
-    s3 = boto3.client('s3')
-    response = s3.upload_file(file_name, os.environ.get(
-        'S3_BUCKET'), key, ExtraArgs={'ACL': 'public-read'})
