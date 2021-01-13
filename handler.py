@@ -35,19 +35,15 @@ def pdf_images(event, context):
     if key == None:
         return missing_key_response()
 
-    print('Downloading file...')
     path = download_file(key)
     images_directory = '/tmp/images'
     if not os.path.exists(images_directory):
         os.mkdir(images_directory)
 
-    print('Extracting images...')
     # TODO: Should extract to another file
     doc = fitz.open(path)
     for i in range(len(doc)):
-        print("Fetching from page %s" % (i + 1))
         for img in doc.getPageImageList(i):
-            print("Saving image...")
             xref = img[0]
             pix = fitz.Pixmap(doc, xref)
             if pix.n - pix.alpha < 4: # this is GRAY or RGB
@@ -58,18 +54,13 @@ def pdf_images(event, context):
                 pix1 = None
             pix = None
 
-    print('Encoding images...')
     s3_folder = event.get('queryStringParameters', {}).get('folder')
     images = os.listdir(images_directory)
     for filename in images:
         absolute_path = "%s/%s" % (images_directory, filename)
         upload_file("%s/%s" % (s3_folder, filename), absolute_path)
         os.remove(absolute_path)
-        # with open(absolute_path, "rb") as image_file:
-        #     encoded = base64.b64encode(image_file.read()).decode('ascii')
-        #     images.append(encoded)
 
-    print('Building response...')
     response = {
         "statusCode": 200,
         "body": {
@@ -79,9 +70,7 @@ def pdf_images(event, context):
             "Content-Type": "application/json"
         }
     }
-    print(response)
 
-    print('Returning response...')
     return response
 
 
