@@ -24,4 +24,7 @@ sls invoke local -f pdf_to_text -p fixtures/pdf_input.json
 sls deploy --verbose
 ```
 
-- Set a S3_BUCKET environment var on the AWS page for your newly created lamba function
+- Set the following env vars on the AWS page for your newly created lamba function:
+- **S3_BUCKET**
+- **AWS_ACCESS_KEY_ID**
+- **AWS_SECRET_ACCESS_KEY**

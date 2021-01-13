@@ -20,9 +20,11 @@ def pdf_to_text(event, context):
 
     response = {
         "statusCode": 200,
-        "body": text,
+        "body": {
+            "text": text
+        },
         "headers": {
-            "Content-Type": "text/plain; charset=utf-8"
+            "Content-Type": "application/json; charset=utf-8"
         }
     }
 
@@ -33,32 +35,41 @@ def pdf_images(event, context):
     if key == None:
         return missing_key_response()
 
+    print('Downloading file...')
     path = download_file(key)
-    doc = fitz.open(path)
     images_directory = '/tmp/images'
     if not os.path.exists(images_directory):
         os.mkdir(images_directory)
 
+    print('Extracting images...')
+    # TODO: Should extract to another file
+    doc = fitz.open(path)
     for i in range(len(doc)):
+        print("Fetching from page %s" % (i + 1))
         for img in doc.getPageImageList(i):
+            print("Saving image...")
             xref = img[0]
             pix = fitz.Pixmap(doc, xref)
-            if pix.n - pix.alpha < 4:       # this is GRAY or RGB
+            if pix.n - pix.alpha < 4: # this is GRAY or RGB
                 pix.writePNG("%s/p%s-%s.png" % (images_directory, i, xref))
-            else:               # CMYK: convert to RGB first
+            else: # CMYK: convert to RGB first
                 pix1 = fitz.Pixmap(fitz.csRGB, pix)
                 pix1.writePNG("%s/p%s-%s.png" % (images_directory, i, xref))
                 pix1 = None
             pix = None
 
-    images = []
-    for filename in os.listdir(images_directory):
+    print('Encoding images...')
+    s3_folder = event.get('queryStringParameters', {}).get('folder')
+    images = os.listdir(images_directory)
+    for filename in images:
         absolute_path = "%s/%s" % (images_directory, filename)
-        with open(absolute_path, "rb") as image_file:
-            encoded = base64.b64encode(image_file.read()).decode('ascii')
-            images.append(encoded)
-            os.remove(absolute_path)
+        upload_file("%s/%s" % (s3_folder, filename), absolute_path)
+        os.remove(absolute_path)
+        # with open(absolute_path, "rb") as image_file:
+        #     encoded = base64.b64encode(image_file.read()).decode('ascii')
+        #     images.append(encoded)
 
+    print('Building response...')
     response = {
         "statusCode": 200,
         "body": {
@@ -68,11 +79,14 @@ def pdf_images(event, context):
             "Content-Type": "application/json"
         }
     }
+    print(response)
 
+    print('Returning response...')
     return response
 
 
 def convert_pdf_to_txt(path):
+    # TODO: Should extract to another file
     rsrcmgr = PDFResourceManager()
     retstr = StringIO()
     laparams = LAParams()
@@ -110,3 +124,7 @@ def download_file(key):
     path = '/tmp/file.pdf'
     s3.download_file(os.environ.get('S3_BUCKET'), key, path)
     return path
+
+def upload_file(key, file_name):
+    s3 = boto3.client('s3')
+    response = s3.upload_file(file_name, os.environ.get('S3_BUCKET'), key, ExtraArgs={'ACL': 'public-read'})
