@@ -28,3 +28,5 @@ public/coverage
 .serverless
 
 node_modules
+
+__pycache__

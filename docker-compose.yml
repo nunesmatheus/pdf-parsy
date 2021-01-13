@@ -1,0 +1,13 @@
+version: '3'
+services:
+  app:
+    container_name: pdf-parsy
+    build: .
+    tty: true
+    stdin_open: true
+    volumes:
+      - ".:/app/"
+      - ${PIP_CACHE_DIR:-pip}:/usr/local/lib/python3.9/site-packages/
+
+volumes:
+  pip:
