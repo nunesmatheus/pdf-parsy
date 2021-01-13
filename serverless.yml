@@ -101,7 +101,7 @@ functions:
 #            detail:
 #              state:
 #                - pending
-#      - cloudwatchLog: '/aws/lambda/pdftotext'
+#      - cloudwatchLog: '/aws/lambda/pdf_to_text'
 #      - cognitoUserPool:
 #          pool: MyUserPool
 #          trigger: PreSignUp
@@ -110,7 +110,7 @@ functions:
 #          priority: 1
 #          conditions:
 #            host: example.com
-#            path: /pdftotext
+#            path: /pdf_to_text
 
 #    Define function environment variables here
 #    environment:

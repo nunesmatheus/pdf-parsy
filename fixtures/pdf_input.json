@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "routeKey": "GET /pdftotext",
-  "rawPath": "/pdftotext",
+  "routeKey": "GET /pdf_to_text",
+  "rawPath": "/pdf_to_text",
   "rawQueryString": "",
   "headers": {
     "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
@@ -30,13 +30,13 @@
     "domainPrefix": "uzb4xsuyrd",
     "http": {
       "method": "GET",
-      "path": "/pdftotext",
+      "path": "/pdf_to_text",
       "protocol": "HTTP/1.1",
       "sourceIp": "168.181.50.133",
       "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36"
     },
     "requestId": "ZDUvcheTIAMEP-g=",
-    "routeKey": "GET /pdftotext",
+    "routeKey": "GET /pdf_to_text",
     "stage": "$default",
     "time": "12/Jan/2021:20:07:49 +0000",
     "timeEpoch": 1610482069966
