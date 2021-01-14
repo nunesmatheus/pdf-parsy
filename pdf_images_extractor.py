@@ -2,6 +2,7 @@ import fitz
 import boto3
 import os
 from aws import s3_client, s3_bucket
+from PIL import Image
 
 IMAGES_PATH = '/tmp/images'
 
@@ -13,24 +14,37 @@ class PdfImagesExtractor:
 
     def extract_and_upload_images(self):
         self.__create_images_directory()
-        self.extract_images(self.pdf_path)
+        self.extract_images()
         images = self.__upload_images()
         self.__remove_images()
         return images
 
-    def extract_images(self, path):
-        doc = fitz.open(path)
+    def extract_images(self):
+        doc = fitz.open(self.pdf_path)
+
+        images = []
         for i in range(len(doc)):
-            for img in doc.getPageImageList(i):
+            previous_rect = [-1, -1, -1, -1]
+            for img in doc.getPageImageList(i, full=True):
                 xref = img[0]
                 pix = fitz.Pixmap(doc, xref)
+                rect = doc[i].getImageBbox(img)
+                image_path = "%s/p%s-%s.png" % (IMAGES_PATH, i, xref)
                 if pix.n - pix.alpha < 4:  # this is GRAY or RGB
-                    pix.writePNG("%s/p%s-%s.png" % (IMAGES_PATH, i, xref))
+                    pix.writePNG(image_path)
                 else:  # CMYK: convert to RGB first
                     pix1 = fitz.Pixmap(fitz.csRGB, pix)
-                    pix1.writePNG("%s/p%s-%s.png" % (IMAGES_PATH, i, xref))
+                    pix1.writePNG(image_path)
                     pix1 = None
                 pix = None
+                image = Image.open(image_path)
+                if round(rect[1], 2) == round(previous_rect[3], 2):
+                    images.append(image)
+                else:
+                    if len(images) > 1:
+                        self.__merge_images(images)
+                    images = [image]
+                previous_rect = rect
 
     def __create_images_directory(self):
         if os.path.exists(IMAGES_PATH):
@@ -57,3 +71,18 @@ class PdfImagesExtractor:
     def __upload_file(self, key, file_name):
         return s3_client().upload_file(
             file_name, s3_bucket(), key, ExtraArgs={'ACL': 'public-read'})
+
+    def __merge_images(self, images):
+        size = 0
+        total_height = 0
+        for image in images:
+            total_height += image.size[1]
+
+        x = y = 0
+        new_image = Image.new('RGB', (images[0].size[0], total_height))
+        for image in images:
+            new_image.paste(image, (x, y))
+            if os.path.exists(image.filename):
+                os.remove(image.filename)
+            y += image.size[1]
+        new_image.save(images[0].filename, "PNG")
