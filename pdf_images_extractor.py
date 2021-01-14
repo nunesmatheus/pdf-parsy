@@ -7,9 +7,9 @@ IMAGES_PATH = '/tmp/images'
 
 
 class PdfImagesExtractor:
-    def __init__(self, pdf_path, event):
+    def __init__(self, pdf_path, s3_images_folder):
         self.pdf_path = pdf_path
-        self.event = event
+        self.s3_images_folder = s3_images_folder
 
     def extract_and_upload_images(self):
         self.__create_images_directory()
@@ -39,12 +39,11 @@ class PdfImagesExtractor:
         os.mkdir(IMAGES_PATH)
 
     def __upload_images(self):
-        s3_folder = self.event.get('queryStringParameters', {}).get('folder')
         images = os.listdir(IMAGES_PATH)
         keys = []
         for filename in images:
             absolute_path = "%s/%s" % (IMAGES_PATH, filename)
-            s3_key = "%s/%s" % (s3_folder, filename)
+            s3_key = "%s/%s" % (self.s3_images_folder, filename)
             file = self.__upload_file(key=s3_key, file_name=absolute_path)
             keys.append(s3_key)
         return keys

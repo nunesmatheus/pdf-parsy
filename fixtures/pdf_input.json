@@ -23,8 +23,8 @@
     "x-forwarded-proto": "https"
   },
   "queryStringParameters": {
-    "key": "s3_pdf_key",
-    "folder": "s3_images_folder"
+    "s3_pdf_key": "s3_pdf_key",
+    "s3_images_folder": "s3_images_s3_folder"
   },
   "requestContext": {
     "accountId": "775344551058",

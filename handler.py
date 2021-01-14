@@ -32,8 +32,9 @@ def pdf_images(event, context):
         return missing_key_response()
 
     path = download_file(key)
+    s3_folder = event.get('queryStringParameters', {}).get('s3_images_folder')
     images = PdfImagesExtractor(
-        pdf_path=path, event=event).extract_and_upload_images()
+        pdf_path=path, s3_images_folder=s3_folder).extract_and_upload_images()
 
     response = {
         "statusCode": 200,
@@ -47,7 +48,7 @@ def pdf_images(event, context):
 
 
 def file_key(event):
-    return event.get('queryStringParameters', {}).get('key')
+    return event.get('queryStringParameters', {}).get('s3_pdf_key')
 
 
 def missing_key_response():

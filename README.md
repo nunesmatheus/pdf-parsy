@@ -33,3 +33,10 @@ sls deploy --verbose
 - **S3_BUCKET**
 - **AWS_ACCESS_KEY_ID**
 - **AWS_SECRET_ACCESS_KEY**
+
+## Endpoints
+
+- GET /pdf_to_text?s3_pdf_key=key_to_object_on_s3
+    - Extracts text from PDF and returns in a json response
+- POST /pdf_images?s3_pdf_key=key_to_object_to_s3&s3_images_folder=
+    - Extracts images from PDF and uploads to the specified **s3_images_folder** on the bucket configured in the application

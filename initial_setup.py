@@ -12,8 +12,8 @@ if (filedata.find('s3_pdf_key') == -1) or (filedata.find('s3_images_folder') == 
     print('It looks like the sample input has been set already... Maybe revert changes on git?')
     sys.exit()
 
-filedata = filedata.replace('s3_pdf_key', s3_object)
-filedata = filedata.replace('s3_images_folder', s3_images_folder)
+filedata = filedata.replace('s3_pdf_key_placeholder', s3_object)
+filedata = filedata.replace('s3_images_folder_placeholder', s3_images_folder)
 
 with open('fixtures/pdf_input.json', 'w') as file:
     file.write(filedata)
