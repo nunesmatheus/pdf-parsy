@@ -23,21 +23,13 @@ class PdfImagesExtractor:
         doc = fitz.open(self.pdf_path)
 
         images = []
-        for i in range(len(doc)):
+        for page in range(len(doc)):
             previous_rect = [-1, -1, -1, -1]
-            for img in doc.getPageImageList(i, full=True):
-                xref = img[0]
-                pix = fitz.Pixmap(doc, xref)
-                rect = doc[i].getImageBbox(img)
-                image_path = "%s/p%s-%s.png" % (IMAGES_PATH, i, xref)
-                if pix.n - pix.alpha < 4:  # this is GRAY or RGB
-                    pix.writePNG(image_path)
-                else:  # CMYK: convert to RGB first
-                    pix1 = fitz.Pixmap(fitz.csRGB, pix)
-                    pix1.writePNG(image_path)
-                    pix1 = None
-                pix = None
+            for pdf_image in doc.getPageImageList(page, full=True):
+                image_path = self.__save_image(
+                    doc=doc, image=pdf_image, page=page)
                 image = Image.open(image_path)
+                rect = doc[page].getImageBbox(pdf_image)
                 if round(rect[1], 2) == round(previous_rect[3], 2):
                     images.append(image)
                 else:
@@ -71,6 +63,19 @@ class PdfImagesExtractor:
     def __upload_file(self, key, file_name):
         return s3_client().upload_file(
             file_name, s3_bucket(), key, ExtraArgs={'ACL': 'public-read'})
+
+    def __save_image(self, doc, image, page):
+        xref = image[0]
+        pix = fitz.Pixmap(doc, xref)
+        image_path = "%s/p%s-%s.png" % (IMAGES_PATH, page, xref)
+        if pix.n - pix.alpha < 4:  # this is GRAY or RGB
+            pix.writePNG(image_path)
+        else:  # CMYK: convert to RGB first
+            pix1 = fitz.Pixmap(fitz.csRGB, pix)
+            pix1.writePNG(image_path)
+            pix1 = None
+        pix = None
+        return image_path
 
     def __merge_images(self, images):
         size = 0
