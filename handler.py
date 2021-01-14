@@ -54,7 +54,10 @@ def file_key(event):
 def missing_key_response():
     return {
         "statusCode": 200,
-        "body": "Missing 'key' query parameter to fetch from S3"
+        "body": json.dumps({"error": "Missing 'key' query parameter to fetch from S3"}),
+        "headers": {
+            "Content-Type": "application/json"
+        }
     }
 
 
