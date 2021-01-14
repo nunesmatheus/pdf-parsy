@@ -8,7 +8,7 @@
     "accept-encoding": "gzip, deflate, br",
     "accept-language": "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7,sr;q=0.6,es;q=0.5",
     "content-length": "0",
-    "host": "uzb4xsuyrd.execute-api.us-east-1.amazonaws.com",
+    "host": "a1b2c3d4e5.execute-api.us-east-1.amazonaws.com",
     "sec-ch-ua": "\"Google Chrome\";v=\"87\", \" Not;A Brand\";v=\"99\", \"Chromium\";v=\"87\"",
     "sec-ch-ua-mobile": "?0",
     "sec-fetch-dest": "document",
@@ -18,7 +18,7 @@
     "upgrade-insecure-requests": "1",
     "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36",
     "x-amzn-trace-id": "Root=1-5ffe0195-03ca63b4286557ce35db729f",
-    "x-forwarded-for": "168.181.50.133",
+    "x-forwarded-for": "168.168.168.168",
     "x-forwarded-port": "443",
     "x-forwarded-proto": "https"
   },
@@ -27,18 +27,18 @@
     "s3_images_folder": "s3_images_s3_folder"
   },
   "requestContext": {
-    "accountId": "775344551058",
-    "apiId": "uzb4xsuyrd",
-    "domainName": "uzb4xsuyrd.execute-api.us-east-1.amazonaws.com",
-    "domainPrefix": "uzb4xsuyrd",
+    "accountId": "123456789987654321",
+    "apiId": "a1b2c3d4e5",
+    "domainName": "a1b2c3d4e5.execute-api.us-east-1.amazonaws.com",
+    "domainPrefix": "a1b2c3d4e5",
     "http": {
       "method": "GET",
       "path": "/pdf_to_text",
       "protocol": "HTTP/1.1",
-      "sourceIp": "168.181.50.133",
+      "sourceIp": "168.168.168.168",
       "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36"
     },
-    "requestId": "ZDUvcheTIAMEP-g=",
+    "requestId": "ZNCatheTUAMBP-g=",
     "routeKey": "GET /pdf_to_text",
     "stage": "$default",
     "time": "12/Jan/2021:20:07:49 +0000",
