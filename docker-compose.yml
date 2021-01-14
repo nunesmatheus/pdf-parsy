@@ -8,6 +8,8 @@ services:
     volumes:
       - .:/app/
       - pip:/usr/local/lib/python3.9/site-packages/
+    environment:
+      - PYTHONPATH=/app
 
 volumes:
   pip:
