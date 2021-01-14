@@ -7,7 +7,7 @@ Extract text and images from PDFs through and endpoint that runs as a lambda fun
 ``` bash
 docker-compose build
 docker-compose run --rm app pip install -r requirements_dev.txt
-docker-compose run --rm -e S3_SAMPLE_OBJECT_KEY=my_s3_bucket -e S3_SAMPLE_IMAGES_FOLDER=my_s3_folder app ./initial_setup.py
+docker-compose run --rm -e S3_SAMPLE_OBJECT_KEY=my_s3_bucket -e S3_SAMPLE_IMAGES_FOLDER=my_s3_folder app python initial_setup.py
 docker-compose run --rm -e S3_BUCKET=my_bucket -e S3_ACCESS_KEY_ID=my_access_key_id -e S3_SECRET_ACCESS_KEY=my_aws_secret_access_key app sls invoke local -f pdf_to_text -p fixtures/pdf_input.json
 ```
 
