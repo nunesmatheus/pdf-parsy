@@ -1,17 +1,19 @@
-import boto3
 import os
-from pdf_to_text import convert as convert_to_text
-from pdf_images_extractor import extract_and_upload_images
+from pdf_to_text import PdfToText
+from pdf_images_extractor import PdfImagesExtractor
+from aws import s3_client, s3_bucket
 import json
 
 
 def pdf_to_text(event, context):
+    # TODO: query param name should be more meaningful, like pdf_s3_key
+    # TODO: folder query param name should be more meaningful, like images_s3_folder
     key = file_key(event)
     if key == None:
         return missing_key_response()
 
     path = download_file(key)
-    text = convert_to_text(path)
+    text = PdfToText(path).convert()
 
     response = {
         "statusCode": 200,
@@ -30,7 +32,8 @@ def pdf_images(event, context):
         return missing_key_response()
 
     path = download_file(key)
-    images = extract_and_upload_images(path, event)
+    images = PdfImagesExtractor(
+        pdf_path=path, event=event).extract_and_upload_images()
 
     response = {
         "statusCode": 200,
@@ -55,7 +58,6 @@ def missing_key_response():
 
 
 def download_file(key):
-    s3 = boto3.client('s3')
     path = '/tmp/file.pdf'
-    s3.download_file(os.environ.get('S3_BUCKET'), key, path)
+    s3_client().download_file(s3_bucket(), key, path)
     return path
