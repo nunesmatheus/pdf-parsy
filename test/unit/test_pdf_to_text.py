@@ -1,5 +1,4 @@
 import unittest
-import sys
 from pdf_to_text import PdfToText
 
 PDF_FIXTURE_PATH = 'fixtures/sample.pdf'
