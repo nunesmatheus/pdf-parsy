@@ -82,7 +82,7 @@ functions:
     events:
       - httpApi:
           path: /pdf_images
-          method: get
+          method: post
 #      - websocket: $connect
 #      - s3: ${env:BUCKET}
 #      - schedule: rate(10 minutes)
