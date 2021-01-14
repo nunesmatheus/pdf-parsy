@@ -13,10 +13,10 @@ jmespath==0.10.0
 lazy-object-proxy==1.4.3
 mccabe==0.6.1
 pdfminer.six==20201018
+Pillow==8.1.0
 pycodestyle==2.6.0
 pycparser==2.20
 pycryptodome==3.9.9
-PyMuPDF==1.18.6
 python-dateutil==2.8.1
 s3transfer==0.3.4
 six==1.15.0
