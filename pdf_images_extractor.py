@@ -3,7 +3,6 @@ import boto3
 import os
 from aws import s3_client, s3_bucket
 from PIL import Image
-import io
 
 IMAGES_PATH = '/tmp/images'
 
@@ -21,24 +20,23 @@ class PdfImagesExtractor:
         return images
 
     def extract_images(self):
-        pdf_file = fitz.open(self.pdf_path)
+        doc = fitz.open(self.pdf_path)
 
-        for page_index in range(len(pdf_file)):
-            page = pdf_file[page_index]
-            image_list = page.getImageList()
-            for image_index, img in enumerate(image_list, start=1):
-                # get the XREF of the image
-                xref = img[0]
-                # extract the image bytes
-                base_image = pdf_file.extractImage(xref)
-                image_bytes = base_image["image"]
-                # get the image extension
-                image_ext = base_image["ext"]
-                # load it to PIL
-                image = Image.open(io.BytesIO(image_bytes))
-                # save it to local disk
-                image.save(
-                    open(f"{IMAGES_PATH}/image{page_index+1}_{image_index}.{image_ext}", "wb"))
+        images = []
+        for page in range(len(doc)):
+            previous_rect = [-1, -1, -1, -1]
+            for pdf_image in doc.getPageImageList(page, full=True):
+                image_path = self.__save_image(
+                    doc=doc, image=pdf_image, page=page)
+                image = Image.open(image_path)
+                rect = doc[page].getImageBbox(pdf_image)
+                if round(rect[1], 2) == round(previous_rect[3], 2):
+                    images.append(image)
+                else:
+                    if len(images) > 1:
+                        self.__merge_images(images)
+                    images = [image]
+                previous_rect = rect
 
     def __create_images_directory(self):
         if os.path.exists(IMAGES_PATH):
@@ -65,3 +63,31 @@ class PdfImagesExtractor:
     def __upload_file(self, key, file_name):
         return s3_client().upload_file(
             file_name, s3_bucket(), key, ExtraArgs={'ACL': 'public-read'})
+
+    def __save_image(self, doc, image, page):
+        xref = image[0]
+        pix = fitz.Pixmap(doc, xref)
+        image_path = "%s/p%s-%s.png" % (IMAGES_PATH, page, xref)
+        if pix.n - pix.alpha < 4:  # this is GRAY or RGB
+            pix.writePNG(image_path)
+        else:  # CMYK: convert to RGB first
+            pix1 = fitz.Pixmap(fitz.csRGB, pix)
+            pix1.writePNG(image_path)
+            pix1 = None
+        pix = None
+        return image_path
+
+    def __merge_images(self, images):
+        size = 0
+        total_height = 0
+        for image in images:
+            total_height += image.size[1]
+
+        x = y = 0
+        new_image = Image.new('RGB', (images[0].size[0], total_height))
+        for image in images:
+            new_image.paste(image, (x, y))
+            if os.path.exists(image.filename):
+                os.remove(image.filename)
+            y += image.size[1]
+        new_image.save(images[0].filename, "PNG")
