@@ -32,7 +32,7 @@ docker-compose run --rm app sls invoke local -f pdf_to_text -p fixtures/pdf_inpu
 docker-compose run --rm -e AWS_ACCESS_KEY_ID=my_access_key_id -e AWS_SECRET_ACCESS_KEY=my_aws_secret_access_key app sls deploy --verbose
 ```
 
-- Set the following env vars on the AWS page for your newly created lamba function:
+- Set the following env vars on the AWS page for your newly created lamba functions:
 - **S3_BUCKET**
 - **S3_ACCESS_KEY_ID**
 - **S3_SECRET_ACCESS_KEY**
