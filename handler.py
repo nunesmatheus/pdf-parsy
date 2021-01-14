@@ -17,7 +17,7 @@ def pdf_to_text(event, context):
 
     response = {
         "statusCode": 200,
-        "body": json.dumps({"text": text}),
+        "body": json.dumps({"text": text}, ensure_ascii=False),
         "headers": {
             "Content-Type": "application/json; charset=utf-8"
         }
