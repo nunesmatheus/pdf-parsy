@@ -1,15 +1,8 @@
-FROM ruby:2.7.1
+FROM python:3.8
 
-EXPOSE 3000
+WORKDIR /app
 
-RUN mkdir /pdf-parsy
-WORKDIR /pdf-parsy
-COPY . /pdf-parsy
-
-RUN apt-get update
-RUN apt-get install -y poppler-utils
-
-RUN gem install bundler
-RUN bundle install --path=vendor/bundle
-
-CMD ["bundle", "exec", "rails", "s", "-b", "0.0.0.0"]
+RUN curl -sL https://deb.nodesource.com/setup_15.x | bash -
+RUN apt-get install -y nodejs
+RUN npm install -g serverless@2.18.0
+RUN npm install

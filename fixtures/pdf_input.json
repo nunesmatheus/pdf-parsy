@@ -1,0 +1,48 @@
+{
+  "version": "2.0",
+  "routeKey": "GET /pdf_to_text",
+  "rawPath": "/pdf_to_text",
+  "rawQueryString": "",
+  "headers": {
+    "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+    "accept-encoding": "gzip, deflate, br",
+    "accept-language": "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7,sr;q=0.6,es;q=0.5",
+    "content-length": "0",
+    "host": "a1b2c3d4e5.execute-api.us-east-1.amazonaws.com",
+    "sec-ch-ua": "\"Google Chrome\";v=\"87\", \" Not;A Brand\";v=\"99\", \"Chromium\";v=\"87\"",
+    "sec-ch-ua-mobile": "?0",
+    "sec-fetch-dest": "document",
+    "sec-fetch-mode": "navigate",
+    "sec-fetch-site": "none",
+    "sec-fetch-user": "?1",
+    "upgrade-insecure-requests": "1",
+    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36",
+    "x-amzn-trace-id": "Root=1-5ffe0195-03ca63b4286557ce35db729f",
+    "x-forwarded-for": "168.168.168.168",
+    "x-forwarded-port": "443",
+    "x-forwarded-proto": "https"
+  },
+  "queryStringParameters": {
+    "s3_pdf_key": "s3_pdf_key",
+    "s3_images_folder": "s3_images_s3_folder"
+  },
+  "requestContext": {
+    "accountId": "123456789987654321",
+    "apiId": "a1b2c3d4e5",
+    "domainName": "a1b2c3d4e5.execute-api.us-east-1.amazonaws.com",
+    "domainPrefix": "a1b2c3d4e5",
+    "http": {
+      "method": "GET",
+      "path": "/pdf_to_text",
+      "protocol": "HTTP/1.1",
+      "sourceIp": "168.168.168.168",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36"
+    },
+    "requestId": "ZNCatheTUAMBP-g=",
+    "routeKey": "GET /pdf_to_text",
+    "stage": "$default",
+    "time": "12/Jan/2021:20:07:49 +0000",
+    "timeEpoch": 1610482069966
+  },
+  "isBase64Encoded": false
+}

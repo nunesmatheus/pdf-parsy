@@ -1,0 +1,19 @@
+{
+  "name": "pdf-parsy",
+  "version": "1.0.0",
+  "description": "Get text from PDFs with this lambda function built with the [serverless framework](https://www.serverless.com/)",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nunesmatheus/pdf-parsy.git"
+  },
+  "author": "Matheus Nunes",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nunesmatheus/pdf-parsy/issues"
+  },
+  "homepage": "https://github.com/nunesmatheus/pdf-parsy#readme",
+  "dependencies": {
+    "serverless-python-requirements": "^5.1.0"
+  }
+}
