@@ -2,8 +2,6 @@ import fitz
 import boto3
 import os
 from aws import s3_client, s3_bucket
-from PIL import Image
-import io
 
 IMAGES_PATH = '/tmp/images'
 
@@ -15,30 +13,24 @@ class PdfImagesExtractor:
 
     def extract_and_upload_images(self):
         self.__create_images_directory()
-        self.extract_images()
+        self.extract_images(self.pdf_path)
         images = self.__upload_images()
         self.__remove_images()
         return images
 
-    def extract_images(self):
-        pdf_file = fitz.open(self.pdf_path)
-
-        for page_index in range(len(pdf_file)):
-            page = pdf_file[page_index]
-            image_list = page.getImageList()
-            for image_index, img in enumerate(image_list, start=1):
-                # get the XREF of the image
+    def extract_images(self, path):
+        doc = fitz.open(path)
+        for i in range(len(doc)):
+            for img in doc.getPageImageList(i):
                 xref = img[0]
-                # extract the image bytes
-                base_image = pdf_file.extractImage(xref)
-                image_bytes = base_image["image"]
-                # get the image extension
-                image_ext = base_image["ext"]
-                # load it to PIL
-                image = Image.open(io.BytesIO(image_bytes))
-                # save it to local disk
-                image.save(
-                    open(f"{IMAGES_PATH}/image{page_index+1}_{image_index}.{image_ext}", "wb"))
+                pix = fitz.Pixmap(doc, xref)
+                if pix.n - pix.alpha < 4:  # this is GRAY or RGB
+                    pix.writePNG("%s/p%s-%s.png" % (IMAGES_PATH, i, xref))
+                else:  # CMYK: convert to RGB first
+                    pix1 = fitz.Pixmap(fitz.csRGB, pix)
+                    pix1.writePNG("%s/p%s-%s.png" % (IMAGES_PATH, i, xref))
+                    pix1 = None
+                pix = None
 
     def __create_images_directory(self):
         if os.path.exists(IMAGES_PATH):
