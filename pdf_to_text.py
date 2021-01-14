@@ -15,7 +15,6 @@ class PdfToText:
         file.close()
         return text
 
-
     def __process_pages(self, file):
         retstr = StringIO()
         resource_manager = PDFResourceManager()
@@ -27,12 +26,10 @@ class PdfToText:
         retstr.close()
         return text
 
-
     def __interpreter(self, resource_manager, retstr):
         device = TextConverter(resource_manager, retstr, codec='utf-8',
                                laparams=self.__layout_params())
         return PDFPageInterpreter(rsrcmgr=resource_manager, device=device)
-
 
     def __layout_params(self):
         # Default LAParams: char_margin=2.0, line_margin=0.5, word_margin=0.1 all_texts=False

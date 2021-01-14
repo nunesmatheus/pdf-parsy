@@ -4,6 +4,7 @@ from pdf_to_text import PdfToText
 
 PDF_FIXTURE_PATH = 'fixtures/sample.pdf'
 
+
 class TestPdfToText(unittest.TestCase):
     def test_text_extraction(self):
         text = PdfToText(PDF_FIXTURE_PATH).convert()
