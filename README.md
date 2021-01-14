@@ -18,7 +18,7 @@ docker-compose run --rm -e S3_BUCKET=my_bucket -e S3_ACCESS_KEY_ID=my_access_key
 
 AWS credentials should have permissions to:
 - Read from the provided S3 bucket that stores the PDF to be analyzed
-- Write the extracted images from the PDF on the provided folder
+- Write the extracted images from the PDF on the folder set by S3_SAMPLE_IMAGES_FOLDER on the previous step
 
 - Run the function:
 
