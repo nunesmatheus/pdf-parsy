@@ -6,8 +6,6 @@ import json
 
 
 def pdf_to_text(event, context):
-    # TODO: query param name should be more meaningful, like pdf_s3_key
-    # TODO: folder query param name should be more meaningful, like images_s3_folder
     key = file_key(event)
     if key == None:
         return missing_key_response()
