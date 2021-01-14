@@ -34,8 +34,8 @@ docker-compose run --rm -e AWS_ACCESS_KEY_ID=my_access_key_id -e AWS_SECRET_ACCE
 
 - Set the following env vars on the AWS page for your newly created lamba function:
 - **S3_BUCKET**
-- **AWS_ACCESS_KEY_ID**
-- **AWS_SECRET_ACCESS_KEY**
+- **S3_ACCESS_KEY_ID**
+- **S3_SECRET_ACCESS_KEY**
 
 ## Endpoints
 
